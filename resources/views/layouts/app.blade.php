@@ -10,6 +10,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -20,25 +21,15 @@
     <body class="font-sans antialiased">
         <x-banner />
 
-        <div class="min-h-screen bg-white md:flex">
+        <div class="min-h-screen bg-white flex justify-center">
             <!-- Sidebar / Navigation -->
-            <aside class="md:w-64 flex-shrink-0 md:fixed md:inset-y-0 md:z-50 md:border-r md:border-gray-200 bg-white">
+            <aside class="hidden md:flex w-20 xl:w-64 flex-col fixed inset-y-0 left-0 z-50 border-r border-gray-100 bg-white">
                 @livewire('navigation-menu')
             </aside>
 
             <!-- Main Content -->
-            <div class="flex-1 flex flex-col min-w-0 overflow-hidden md:pl-64 mb-16 md:mb-0">
-                <!-- Page Heading -->
-                @if (isset($header))
-                    <header class="bg-white border-b border-gray-100">
-                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            {{ $header }}
-                        </div>
-                    </header>
-                @endif
-
-                <!-- Page Content -->
-                <main class="flex-1">
+            <div class="flex-1 flex w-full max-w-[1200px] md:pl-20 xl:pl-64">
+                <main class="flex-1 min-w-0 border-r border-gray-100">
                     {{ $slot }}
                 </main>
             </div>

@@ -15,9 +15,6 @@ Route::get('/contact', function () {
 });
 
 
-Route::get('/user/{id}' , function($id){
-     return 'user is ' . $id;
-})->where('id','[0-9]+');
 
 
 
@@ -31,10 +28,35 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $posts = \App\Models\Post::with(['user', 'comments', 'reactions'])->latest()->get();
+        $suggestedUsers = \App\Models\User::where('id', '!=', auth()->id())->inRandomOrder()->limit(5)->get();
+        return view('dashboard', compact('posts', 'suggestedUsers'));
     })->name('dashboard');
+
+    Route::resource('posts', \App\Http\Controllers\PostController::class);
+    Route::resource('comments', \App\Http\Controllers\CommentController::class);
+    Route::post('/reactions', [\App\Http\Controllers\ReactionController::class, 'toggle'])->name('reactions.toggle');
+    Route::resource('friendships', \App\Http\Controllers\FriendshipController::class);
+
+    Route::get('/explore', function () {
+        return view('explore');
+    })->name('explore');
+
+    Route::get('/notifications', function () {
+        return view('notifications');
+    })->name('notifications');
+
+    Route::get('/messages', function () {
+        return view('messages');
+    })->name('messages');
+
+    Route::get('/reels', function () {
+        return view('reels');
+    })->name('reels');
     
     Route::get('/profile', function () {
         return view('profile.show');
     })->name('profile.show');
+    
+    Route::get('/user/{user}', [\App\Http\Controllers\UserController::class, 'show'])->name('user.show');
 });

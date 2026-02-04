@@ -1,73 +1,70 @@
-<nav x-data="{ open: false }" class="bg-white h-full flex flex-col border-r border-gray-200">
-    <!-- Desktop Sidebar -->
-    <div class="hidden md:flex flex-col h-full bg-white w-64 p-4 fixed left-0 top-0 border-r border-gray-200 justify-between">
-        <div class="space-y-6">
+<div>
+    <nav x-data="{ open: false }" class="h-full flex flex-col justify-between py-4 xl:px-4">
+        <!-- Desktop Sidebar -->
+        <div class="flex flex-col space-y-6 items-center xl:items-start w-full">
             <!-- Logo -->
-            <div class="px-2 pt-4 pb-4">
-                <a href="{{ route('dashboard') }}" class="text-2xl font-bold tracking-wider" style="font-family: 'Billabong', 'Grand Hotel', cursive;">
-                    LinkUP
+            <a href="{{ route('dashboard') }}" class="p-3 rounded-full hover:bg-gray-100 transition-colors w-fit group">
+                <span class="text-2xl font-bold tracking-wider hidden xl:block" style="font-family: 'Billabong', 'Grand Hotel', cursive;">LinkUP</span>
+                <svg class="w-8 h-8 xl:hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.76-6.162 6.162s2.76 6.163 6.162 6.163 6.162-2.76 6.162-6.163c0-3.403-2.76-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="space-y-1 w-full">
+                @php
+                    $navItems = [
+                        ['route' => 'dashboard', 'label' => 'Home', 'active_icon' => 'home_filled', 'icon' => 'home'],
+                        ['route' => 'search', 'label' => 'Search', 'active_icon' => 'search_filled', 'icon' => 'search'],
+                        ['route' => 'explore', 'label' => 'Explore', 'active_icon' => 'explore_filled', 'icon' => 'explore'],
+                        ['route' => 'reels', 'label' => 'Reels', 'active_icon' => 'movie_filled', 'icon' => 'movie'],
+                        ['route' => 'messages', 'label' => 'Messages', 'active_icon' => 'send_filled', 'icon' => 'send'],
+                        ['route' => 'notifications', 'label' => 'Notifications', 'active_icon' => 'favorite_filled', 'icon' => 'favorite'],
+                        ['route' => 'create', 'label' => 'Create', 'active_icon' => 'add_box_filled', 'icon' => 'add_box'],
+                    ];
+                @endphp
+
+                @foreach($navItems as $item)
+                @php 
+                    $isActive = request()->routeIs($item['route']);
+                    // Mock SVG paths for now, replaced with Material Symbols in a real scenario or full SVG paths
+                @endphp
+                <a href="{{ Route::has($item['route']) ? route($item['route']) : '#' }}" 
+                   class="flex items-center gap-4 p-3 rounded-full hover:bg-gray-100 transition-colors w-full xl:w-auto xl:pr-8 group justify-center xl:justify-start">
+                    <span class="material-symbols-outlined text-[28px] {{ $isActive ? 'font-fill' : '' }} group-hover:scale-105 transition-transform">
+                        {{ $item['icon'] }} 
+                        {{-- Note: 'font-fill' class usually needs a filled icon font or variation. 
+                             For Material Symbols, we can toggle 'fill' via CSS or class if configured. 
+                             Assuming 'material-symbols-outlined' with a fill variation class if available, or just swap icon names. --}}
+                    </span>
+                    <span class="text-xl hidden xl:block {{ $isActive ? 'font-bold' : 'font-normal' }}">{{ $item['label'] }}</span>
+                </a>
+                @endforeach
+
+                <a href="{{ route('profile.show') }}" class="flex items-center gap-4 p-3 rounded-full hover:bg-gray-100 transition-colors w-full xl:w-auto xl:pr-8 group justify-center xl:justify-start">
+                     @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                        <img class="h-7 w-7 rounded-full object-cover border border-gray-300 {{ request()->routeIs('profile.show') ? 'ring-2 ring-black' : '' }}" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                     @else
+                        <span class="material-symbols-outlined text-[28px] {{ request()->routeIs('profile.show') ? 'font-fill' : '' }}">person</span>
+                     @endif
+                    <span class="text-xl hidden xl:block {{ request()->routeIs('profile.show') ? 'font-bold' : 'font-normal' }}">Profile</span>
                 </a>
             </div>
 
-            <!-- Navigation Links -->
-            <div class="space-y-2">
-                <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" class="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-100 transition-colors {{ request()->routeIs('dashboard') ? 'font-bold' : '' }}">
-                    @if(request()->routeIs('dashboard'))
-                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12.086l-10-8.686-10 8.666 1.414 1.414 8.586-7.441 8.586 7.441z"/><path d="M4 13.914v9.086h16v-9.086l-8-6.928z"/></svg>
-                    @else
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                    @endif
-                    <span class="text-base">Home</span>
-                </x-nav-link>
-
-                <button class="w-full flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <span class="text-base">Search</span>
-                </button>
-
-                <button class="w-full flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
-                    <span class="text-base">Explore</span>
-                </button>
-
-                <button class="w-full flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
-                    <span class="text-base">Reels</span>
-                </button>
-
-                <button class="w-full flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-                    <span class="text-base">Messages</span>
-                </button>
-
-                <button class="w-full flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-                    <span class="text-base">Notifications</span>
-                </button>
-
-                <button class="w-full flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                    <span class="text-base">Create</span>
-                </button>
-
-                 <x-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')" class="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-100 transition-colors {{ request()->routeIs('profile.show') ? 'font-bold' : '' }}">
-                     @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                        <img class="h-7 w-7 rounded-full object-cover border border-gray-300" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                     @else
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                     @endif
-                    <span class="text-base">Profile</span>
-                </x-nav-link>
-            </div>
+            <!-- Post Button -->
+            <button class="bg-[#1DA1F2] hover:bg-[#1a91da] text-white rounded-full p-3 xl:px-8 xl:py-3 font-bold text-lg shadow-md transition-colors w-fit xl:w-11/12 mt-4 flex items-center justify-center">
+                 <span class="xl:hidden">
+                    <span class="material-symbols-outlined text-[24px]">edit_square</span>
+                 </span>
+                 <span class="hidden xl:block">Post</span>
+            </button>
         </div>
 
         <!-- More Dropdown -->
-        <div class="px-2 pb-4">
+        <div class="px-2 pb-4 flex justify-center xl:justify-start w-full">
              <x-dropdown align="left" width="60">
                  <x-slot name="trigger">
-                     <button class="w-full flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-100 transition-colors">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                        <span class="text-base">More</span>
+                     <button class="flex items-center gap-4 p-3 rounded-full hover:bg-gray-100 transition-colors w-full xl:w-auto xl:pr-8 group justify-center xl:justify-start">
+                        <span class="material-symbols-outlined text-[28px]">menu</span>
+                        <span class="text-xl hidden xl:block">More</span>
                     </button>
                  </x-slot>
                  <x-slot name="content">
@@ -87,53 +84,18 @@
                  </x-slot>
              </x-dropdown>
         </div>
-    </div>
+    </nav>
 
-    <!-- Mobile Top Bar (Logo + Notifications) -->
-    <div class="md:hidden flex justify-between items-center p-4 bg-white border-b border-gray-200 sticky top-0 z-50">
-        <a href="{{ route('dashboard') }}" class="text-xl font-bold tracking-wider" style="font-family: 'Billabong', 'Grand Hotel', cursive;">
-            LinkUP
-        </a>
-        <div class="flex space-x-4">
-             <button>
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-            </button>
-            <button>
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-            </button>
-        </div>
-    </div>
-
-    <!-- Mobile Bottom Navigation -->
-    <div class="md:hidden fixed bottom-0 w-full bg-white border-t border-gray-200 z-50 flex justify-around items-center py-3">
-        <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'text-black' : 'text-gray-500' }}">
-            @if(request()->routeIs('dashboard'))
-                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12.086l-10-8.686-10 8.666 1.414 1.414 8.586-7.441 8.586 7.441z"/><path d="M4 13.914v9.086h16v-9.086l-8-6.928z"/></svg>
+    <!-- Mobile Bottom Navigation (Visible only on small screens) -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 flex justify-around items-center py-3 px-2 pb-safe">
+        @foreach(['dashboard' => 'home', 'explore' => 'search', 'reels' => 'movie', 'create' => 'add_box', 'profile.show' => 'person'] as $route => $icon)
+        <a href="{{ Route::has($route) ? route($route) : '#' }}" class="p-2 {{ request()->routeIs($route) ? 'text-black' : 'text-gray-500' }}">
+            @if($route === 'profile.show' && Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                <img class="h-6 w-6 rounded-full object-cover border border-gray-300 {{ request()->routeIs($route) ? 'ring-2 ring-black' : '' }}" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
             @else
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <span class="material-symbols-outlined text-[28px] {{ request()->routeIs($route) ? 'font-fill' : '' }}">{{ $icon }}</span>
             @endif
         </a>
-
-        <button class="text-gray-500">
-             <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
-        </button>
-
-         <button class="text-gray-500">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-        </button>
-
-        <button class="text-gray-500">
-             <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
-        </button>
-
-        <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.show') ? 'ring-2 ring-black rounded-full' : '' }}">
-            @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                <img class="h-7 w-7 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-            @else
-                <div class="h-7 w-7 rounded-full bg-gray-200 flex items-center justify-center">
-                    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                </div>
-            @endif
-        </a>
+        @endforeach
     </div>
-</nav>
+</div>

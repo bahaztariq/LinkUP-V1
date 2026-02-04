@@ -64,4 +64,54 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    /**
+     * Get the posts for the user.
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class)->latest();
+    }
+
+    public function friendshipsSent()
+    {
+        return $this->hasMany(Friendship::class, 'requester_id');
+    }
+
+    public function friendshipsReceived()
+    {
+        return $this->hasMany(Friendship::class, 'addressee_id');
+    }
+
+    public function getPendingRequestsAttribute()
+    {
+        return $this->friendshipsReceived()->where('status', 'pending')->with('requester')->get();
+    }
+
+    public function getFriendsAttribute()
+    {
+        // Get IDs of friends where I am the requester
+        $sent = $this->friendshipsSent()->where('status', 'accepted')->pluck('addressee_id');
+        // Get IDs of friends where I am the addressee
+        $received = $this->friendshipsReceived()->where('status', 'accepted')->pluck('requester_id');
+        
+        $friendIds = $sent->merge($received);
+        
+        return User::whereIn('id', $friendIds)->get();
+    }
+
+    public function isFriendWith(User $user)
+    {
+        return $this->friendshipsSent()->where('addressee_id', $user->id)->where('status', 'accepted')->exists() ||
+               $this->friendshipsReceived()->where('requester_id', $user->id)->where('status', 'accepted')->exists();
+    }
+    
+    public function getPendingFriendRequestTo(User $user)
+    {
+        return $this->friendshipsSent()->where('addressee_id', $user->id)->where('status', 'pending')->first();
+    }
+    
+    public function getPendingFriendRequestFrom(User $user)
+    {
+        return $this->friendshipsReceived()->where('requester_id', $user->id)->where('status', 'pending')->first();
+    }
 }

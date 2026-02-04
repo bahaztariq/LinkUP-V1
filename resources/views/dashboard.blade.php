@@ -1,132 +1,175 @@
 <x-app-layout>
-    <div class="flex justify-center min-h-screen pt-4 lg:pt-10">
-        <!-- Feed Container -->
-        <div class="w-full max-w-[630px] flex flex-col px-4 sm:px-0">
-            <!-- Stories -->
-            <div class="flex space-x-4 overflow-x-auto pb-6 scrollbar-hide">
-                <!-- Add Story -->
-                <div class="flex flex-col items-center space-y-1 min-w-[70px]">
-                    <div class="relative">
-                        <div class="w-[66px] h-[66px] rounded-full border-2 border-gray-100 p-0.5">
-                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                <img class="w-full h-full rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                            @else
-                                <div class="w-full h-full rounded-full bg-gray-200 flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="absolute bottom-0 right-0 bg-blue-500 rounded-full w-5 h-5 flex items-center justify-center border-2 border-white text-white text-xs">+</div>
-                    </div>
-                    <span class="text-xs truncate w-[74px] text-center">Your story</span>
+    <div class="flex min-h-screen">
+        <!-- Middle Column: Feed (600px max) -->
+        <div class="flex-1 w-full max-w-[600px] border-r border-gray-100">
+            <!-- Sticky Header (Tabs) -->
+            <div class="sticky top-0 bg-white/80 backdrop-blur-md z-30 border-b border-gray-100">
+                <div class="flex">
+                    <button class="flex-1 h-[53px] hover:bg-gray-50 flex items-center justify-center transition-colors relative group">
+                        <span class="font-bold text-[15px]">For you</span>
+                        <div class="absolute bottom-0 h-[4px] w-[56px] bg-[#1DA1F2] rounded-full"></div>
+                    </button>
+                    <button class="flex-1 h-[53px] hover:bg-gray-50 flex items-center justify-center transition-colors text-gray-500 font-medium text-[15px]">
+                        <span>Following</span>
+                    </button>
                 </div>
-
-                <!-- Dummy Stories -->
-                @foreach(range(1, 8) as $i)
-                <div class="flex flex-col items-center space-y-1 min-w-[70px] cursor-pointer">
-                    <div class="w-[66px] h-[66px] rounded-full ring-2 ring-pink-500 ring-offset-2 p-0.5">
-                        <img class="w-full h-full rounded-full object-cover bg-gray-100" src="https://ui-avatars.com/api/?name=User+{{$i}}&background=random" alt="User {{$i}}" />
-                    </div>
-                    <span class="text-xs truncate w-[74px] text-center">user_{{$i}}</span>
-                </div>
-                @endforeach
             </div>
 
-            <!-- Posts Feed -->
-            <div class="mt-4 space-y-8 pb-16">
-                @foreach(range(1, 4) as $post)
-                <div class="flex flex-col border-b border-gray-100 pb-6">
-                    <!-- Post Header -->
-                    <div class="flex items-center justify-between py-2">
-                        <div class="flex items-center space-x-2">
-                             <div class="w-8 h-8 rounded-full bg-gray-200">
-                                <img class="w-full h-full rounded-full object-cover" src="https://ui-avatars.com/api/?name=User+{{$post}}&background=random" alt="User {{$post}}" />
-                             </div>
-                             <span class="font-semibold text-sm">user_{{$post}}</span>
-                             <span class="text-gray-400 text-xs">• 2h</span>
+            <!-- Stories Tray (Instagram Style, Integrated) -->
+            <div class="py-4 px-4 border-b border-gray-100 overflow-x-auto no-scrollbar">
+                <div class="flex gap-4">
+                    <!-- Add Story -->
+                     <button class="flex flex-col items-center gap-1 min-w-[72px]">
+                        <div class="relative">
+                            <div class="w-[60px] h-[60px] rounded-full p-[2px] border-2 border-gray-100">
+                                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                                    <img class="w-full h-full rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                                @else
+                                    <div class="w-full h-full rounded-full bg-gray-200 flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-gray-400">person</span>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="absolute bottom-0 right-0 bg-blue-500 rounded-full p-[2px] border-2 border-white">
+                                <span class="material-symbols-outlined text-white text-[10px] block">add</span>
+                            </div>
                         </div>
-                        <button><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/></svg></button>
-                    </div>
+                        <span class="text-xs text-gray-600 truncate w-full text-center">Your story</span>
+                    </button>
 
-                    <!-- Post Image -->
-                    <div class="border rounded aspect-square bg-gray-100 flex items-center justify-center text-gray-400">
-                        <span class="text-sm">Post Content Placeholder</span>
-                    </div>
-
-                    <!-- Post Actions -->
-                    <div class="flex justify-between py-3">
-                        <div class="flex space-x-4">
-                            <button><svg class="w-7 h-7 hover:text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg></button>
-                            <button><svg class="w-7 h-7 hover:text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></button>
-                            <button><svg class="w-7 h-7 hover:text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg></button>
+                    <!-- Dummy Stories -->
+                    @foreach(range(1, 8) as $i)
+                    <button class="flex flex-col items-center gap-1 min-w-[72px]">
+                        <div class="w-[64px] h-[64px] rounded-full p-[2px] bg-gradient-to-tr from-yellow-400 to-fuchsia-600">
+                            <div class="w-full h-full rounded-full border-2 border-white p-[2px] bg-white">
+                                <img class="w-full h-full rounded-full object-cover bg-gray-100" src="https://ui-avatars.com/api/?name=User+{{$i}}&background=random" alt="User {{$i}}" />
+                            </div>
                         </div>
-                        <button><svg class="w-7 h-7 hover:text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg></button>
-                    </div>
-
-                    <!-- Likes -->
-                    <div class="font-semibold text-sm mb-1">1,234 likes</div>
-
-                    <!-- Caption -->
-                    <div class="text-sm">
-                        <span class="font-semibold">user_{{$post}}</span>
-                        <span class="text-gray-800">Loving the new look! #redesign #linkup</span>
-                    </div>
-
-                    <!-- Comments -->
-                    <div class="text-gray-500 text-sm mt-1 cursor-pointer">View all 20 comments</div>
-                    <div class="text-gray-400 text-xs mt-1 upppercase">2 HOURS AGO</div>
+                        <span class="text-xs text-gray-600 truncate w-full text-center">user_{{$i}}</span>
+                    </button>
+                    @endforeach
                 </div>
-                @endforeach
+            </div>
+
+            <!-- Composer (Twitter Style) -->
+            <div class="hidden sm:block px-4 py-3 border-b border-gray-100">
+                <div class="flex gap-3">
+                     @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                        <img class="w-10 h-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                    @else
+                         <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-gray-400">person</span>
+                        </div>
+                    @endif
+                    <div class="flex-1">
+                        <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="text" name="content" placeholder="What's new?" class="w-full border-none focus:ring-0 text-xl placeholder-gray-500 p-2 pl-0" required>
+                            <div class="flex justify-between items-center mt-3 border-t border-gray-50 pt-3">
+                                <div class="flex gap-2 text-blue-400">
+                                    <label class="cursor-pointer p-2 hover:bg-blue-50 rounded-full transition-colors">
+                                        <span class="material-symbols-outlined text-[20px]">image</span>
+                                        <input type="file" name="image" class="hidden" accept="image/*">
+                                    </label>
+                                    <label class="cursor-pointer p-2 hover:bg-blue-50 rounded-full transition-colors">
+                                        <span class="material-symbols-outlined text-[20px]">gif_box</span>
+                                        <input type="file" name="video" class="hidden" accept="video/*">
+                                    </label>
+                                    <button type="button" class="p-2 hover:bg-blue-50 rounded-full transition-colors"><span class="material-symbols-outlined text-[20px]">sentiment_satisfied</span></button>
+                                    <button type="button" class="p-2 hover:bg-blue-50 rounded-full transition-colors"><span class="material-symbols-outlined text-[20px]">location_on</span></button>
+                                </div>
+                                <button type="submit" class="bg-[#1DA1F2] hover:bg-[#1a91da] text-white font-bold px-4 py-1.5 rounded-full text-sm disabled:opacity-50">Post</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feed -->
+            <div class="pb-20">
+                 @forelse($posts as $post)
+                    <x-post-card :post="$post" />
+                @empty
+                    <div class="p-8 text-center text-gray-500">
+                        <p>No posts yet. Be the first to share something!</p>
+                    </div>
+                @endforelse
             </div>
         </div>
 
-        <!-- Right Sidebar (Suggestions) -->
-        <div class="hidden lg:block w-[320px] pl-10 pt-4">
-            <!-- Current User -->
-            <div class="flex items-center justify-between mb-6">
-                <div class="flex items-center space-x-4">
-                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                        <img class="w-14 h-14 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                    @else
-                        <div class="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center">
-                            <svg class="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+        <!-- Right Column: Widgets (Hidden on small screens) -->
+        <div class="hidden lg:block w-[350px] pl-8 py-4 mr-10 relative">
+             <!-- Search -->
+            <div class="sticky top-0 bg-white z-10 pb-4">
+                <div class="relative group">
+                    <span class="absolute left-4 top-3 text-gray-500 group-focus-within:text-blue-500">
+                        <span class="material-symbols-outlined text-[20px]">search</span>
+                    </span>
+                    <input type="text" placeholder="Search" class="w-full bg-gray-100 border-none rounded-full py-3 pl-12 pr-4 text-sm focus:bg-white focus:ring-2 focus:ring-blue-400 transition-all placeholder-gray-500">
+                </div>
+            </div>
+
+            <div class="sticky top-[80px] space-y-6">
+                <!-- Trends for you -->
+                <div class="bg-gray-50 rounded-2xl p-4">
+                    <h2 class="font-extrabold text-xl mb-4 text-gray-900 border-b border-gray-200 pb-2">Trends for you</h2>
+                    <div class="space-y-4">
+                        @foreach(['#LinkUP', 'Startups', 'TailwindCSS', '#Redesign', 'CodingLife'] as $i => $trend)
+                        <div class="cursor-pointer hover:bg-gray-100 -mx-4 px-4 py-2 transition-colors">
+                            <div class="flex justify-between text-xs text-gray-500">
+                                <span>Trending in Tech</span>
+                                <span class="material-symbols-outlined text-[16px]">more_horiz</span>
+                            </div>
+                            <div class="font-bold text-sm text-gray-800">{{ $trend }}</div>
+                            <div class="text-xs text-gray-500">{{ rand(10, 500) }}K posts</div>
                         </div>
-                    @endif
-                    <div class="flex flex-col">
-                        <span class="font-bold text-sm">{{ Auth::user()->name }}</span>
-                        <span class="text-gray-500 text-sm">{{ Auth::user()->name }}</span>
+                        @endforeach
+                         <button class="text-blue-500 text-sm font-normal mt-2 hover:underline">Show more</button>
                     </div>
                 </div>
-                <a href="#" class="text-blue-500 text-xs font-bold hover:text-blue-700">Switch</a>
-            </div>
 
-            <!-- Suggestions Header -->
-            <div class="flex justify-between items-center mb-4">
-                <span class="text-gray-500 font-semibold text-sm">Suggested for you</span>
-                <a href="#" class="text-xs font-bold hover:text-gray-500">See All</a>
-            </div>
+                <!-- Who to follow -->
+                <div class="bg-gray-50 rounded-2xl p-4">
+                    <h2 class="font-extrabold text-xl mb-4 text-gray-900">Who to follow</h2>
+                    <div class="space-y-4">
+                        @foreach($suggestedUsers as $suggestedUser)
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <a href="{{ route('user.show', $suggestedUser->id) }}" class="w-10 h-10 rounded-full bg-white p-0.5">
+                                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos() && $suggestedUser->profile_photo_url)
+                                        <img class="w-full h-full rounded-full object-cover" src="{{ $suggestedUser->profile_photo_url }}" alt="{{ $suggestedUser->name }}" />
+                                    @else
+                                        <div class="w-full h-full rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500">
+                                            {{ substr($suggestedUser->name, 0, 1) }}
+                                        </div>
+                                    @endif
+                                </a>
+                                <div class="flex flex-col leading-tight">
+                                    <a href="{{ route('user.show', $suggestedUser->id) }}" class="font-bold text-sm hover:underline cursor-pointer">{{ $suggestedUser->name }}</a>
+                                    <span class="text-xs text-gray-500">@ {{ strtolower(str_replace(' ', '', $suggestedUser->name)) }}</span>
+                                </div>
+                            </div>
+                           
+                            <form action="{{ route('friendships.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="addressee_id" value="{{ $suggestedUser->id }}">
+                                <button type="submit" class="bg-black text-white text-sm font-bold px-4 py-1.5 rounded-full hover:bg-gray-800 transition-colors">Follow</button>
+                            </form>
+                        </div>
+                        @endforeach
+                         <button class="text-blue-500 text-sm font-normal mt-2 hover:underline">Show more</button>
+                    </div>
+                </div>
 
-            <!-- Suggestions List -->
-            <div class="space-y-4">
-                 @foreach(range(1, 5) as $i)
-                 <div class="flex items-center justify-between">
-                     <div class="flex items-center space-x-3">
-                         <div class="w-8 h-8 rounded-full bg-gray-200">
-                             <img class="w-full h-full rounded-full object-cover" src="https://ui-avatars.com/api/?name=Suggested+{{$i}}&background=random" alt="Suggested {{$i}}" />
-                         </div>
-                         <div class="flex flex-col">
-                             <span class="font-semibold text-sm">suggested_{{$i}}</span>
-                             <span class="text-xs text-gray-400">Followed by user_{{$i+1}}</span>
-                         </div>
-                     </div>
-                     <button class="text-blue-500 text-xs font-bold hover:text-blue-700">Follow</button>
-                 </div>
-                 @endforeach
-            </div>
-
-            <!-- Footer -->
-            <div class="mt-8 text-xs text-gray-300">
-                <p>&copy; 2024 LINKUP FROM META</p>
+                <!-- Footer -->
+                <nav class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-400 px-2">
+                    <a href="#" class="hover:underline">Terms of Service</a>
+                    <a href="#" class="hover:underline">Privacy Policy</a>
+                    <a href="#" class="hover:underline">Cookie Policy</a>
+                    <a href="#" class="hover:underline">Accessibility</a>
+                    <a href="#" class="hover:underline">Ads info</a>
+                    <span>© 2026 LinkUP</span>
+                </nav>
             </div>
         </div>
     </div>

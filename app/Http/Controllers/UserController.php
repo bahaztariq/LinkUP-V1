@@ -37,7 +37,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $posts = $user->posts()->with(['user', 'comments', 'reactions'])->latest()->get();
+        return view('user.profile', compact('user', 'posts'));
     }
 
     /**
