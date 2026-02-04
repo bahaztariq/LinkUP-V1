@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex min-h-screen">
         <!-- Middle Column: Profile Info & Feed -->
-        <div class="flex-1 w-full max-w-[600px] border-r border-gray-100">
+        <div class="flex-1 w-full  border-r border-gray-100">
             <!-- Header (Twitter Style) -->
             <div class="sticky top-0 bg-white/80 backdrop-blur-md z-30 px-4 py-1 border-b border-gray-100 flex items-center gap-6">
                 <a href="{{ url()->previous() }}" class="rounded-full p-2 hover:bg-gray-100 transition-colors">
@@ -43,25 +43,44 @@
                         @else
                              <!-- Friend/Follow Logic -->
                              <div class="flex gap-2">
-                                <button class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors">
-                                    <span class="material-symbols-outlined text-[18px]">more_horiz</span>
+                                <button class="w-8 h-8 rounded-full border border-gray-300 dark:border-border-dark flex items-center justify-center hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-slate-600 dark:text-slate-400">more_horiz</span>
                                 </button>
-                                <button class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors">
-                                    <span class="material-symbols-outlined text-[18px]">mail</span>
+                                <button class="w-8 h-8 rounded-full border border-gray-300 dark:border-border-dark flex items-center justify-center hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-slate-600 dark:text-slate-400">mail</span>
                                 </button>
+                                
                                 @if(Auth::user()->isFriendWith($user))
-                                    <form action="{{ route('friendships.destroy', $user->friendshipsReceived()->where('requester_id', Auth::id())->first()->id ?? $user->friendshipsSent()->where('addressee_id', Auth::id())->first()->id) }}" method="POST" onsubmit="return confirm('Unfriend?');">
+                                    {{-- Unfriend --}}
+                                    <form action="{{ route('friendships.destroy', $user->friendshipsReceived()->where('requester_id', Auth::id())->first()->id ?? $user->friendshipsSent()->where('addressee_id', Auth::id())->first()->id) }}" method="POST" onsubmit="return confirm('Remove friend?');">
                                         @csrf @method('DELETE')
-                                        <button type="submit" class="px-4 py-1.5 bg-white border border-red-200 text-red-600 rounded-full font-bold text-[15px] hover:bg-red-50 transition-colors">
-                                            Following
+                                        <button type="submit" class="px-4 py-1.5 bg-white dark:bg-transparent border border-red-200 text-red-600 rounded-full font-bold text-[15px] hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                                            Unfriend
+                                        </button>
+                                    </form>
+                                @elseif($request = Auth::user()->getPendingFriendRequestTo($user))
+                                    {{-- Cancel Request --}}
+                                    <form action="{{ route('friendships.destroy', $request->id) }}" method="POST">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="px-4 py-1.5 bg-white dark:bg-transparent border border-slate-300 dark:border-border-dark text-slate-600 dark:text-slate-300 rounded-full font-bold text-[15px] hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
+                                            Requested
+                                        </button>
+                                    </form>
+                                @elseif($request = Auth::user()->getPendingFriendRequestFrom($user))
+                                    {{-- Accept Request --}}
+                                    <form action="{{ route('friendships.update', $request->id) }}" method="POST">
+                                        @csrf @method('PUT')
+                                        <button type="submit" class="px-4 py-1.5 bg-primary text-white rounded-full font-bold text-[15px] hover:bg-primary/90 transition-colors">
+                                            Accept
                                         </button>
                                     </form>
                                 @else
+                                    {{-- Add Friend --}}
                                     <form action="{{ route('friendships.store') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="addressee_id" value="{{ $user->id }}">
-                                        <button type="submit" class="px-4 py-1.5 bg-black text-white rounded-full font-bold text-[15px] hover:bg-gray-800 transition-colors">
-                                            Follow
+                                        <button type="submit" class="px-4 py-1.5 bg-black dark:bg-white text-white dark:text-black rounded-full font-bold text-[15px] hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
+                                            Add Friend
                                         </button>
                                     </form>
                                 @endif
@@ -131,50 +150,6 @@
         </div>
 
         <!-- Right Column: Widgets (Same as Dashboard for now) -->
-        <div class="hidden lg:block w-[350px] pl-8 py-4 mr-10 relative">
-             <!-- Search -->
-            <div class="sticky top-0 bg-white z-10 pb-4">
-                <div class="relative group">
-                    <span class="absolute left-4 top-3 text-gray-500 group-focus-within:text-blue-500">
-                        <span class="material-symbols-outlined text-[20px]">search</span>
-                    </span>
-                    <input type="text" placeholder="Search" class="w-full bg-gray-100 border-none rounded-full py-3 pl-12 pr-4 text-sm focus:bg-white focus:ring-2 focus:ring-blue-400 transition-all placeholder-gray-500">
-                </div>
-            </div>
-
-            <div class="sticky top-[80px] space-y-6">
-                <!-- Who to follow -->
-                <div class="bg-gray-50 rounded-2xl p-4">
-                    <h2 class="font-extrabold text-xl mb-4 text-gray-900">You might like</h2>
-                    <div class="space-y-4">
-                        @foreach(range(1, 3) as $i)
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <div class="w-10 h-10 rounded-full bg-white p-0.5">
-                                    <img class="w-full h-full rounded-full bg-gray-200" src="https://ui-avatars.com/api/?name=Follow+{{$i}}&background=random" alt="">
-                                </div>
-                                <div class="flex flex-col leading-tight">
-                                    <span class="font-bold text-sm hover:underline cursor-pointer">FollowUser_{{$i}}</span>
-                                    <span class="text-xs text-gray-500">@user_{{$i}}</span>
-                                </div>
-                            </div>
-                            <button class="bg-black text-white text-sm font-bold px-4 py-1.5 rounded-full hover:bg-gray-800 transition-colors">Follow</button>
-                        </div>
-                        @endforeach
-                         <button class="text-blue-500 text-sm font-normal mt-2 hover:underline">Show more</button>
-                    </div>
-                </div>
-
-                <!-- Footer -->
-                <nav class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-400 px-2">
-                    <a href="#" class="hover:underline">Terms of Service</a>
-                    <a href="#" class="hover:underline">Privacy Policy</a>
-                    <a href="#" class="hover:underline">Cookie Policy</a>
-                    <a href="#" class="hover:underline">Accessibility</a>
-                    <a href="#" class="hover:underline">Ads info</a>
-                    <span>© 2026 LinkUP</span>
-                </nav>
-            </div>
-        </div>
+        
     </div>
 </x-app-layout>

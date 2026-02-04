@@ -64,6 +64,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function reactions()
+    {
+        return $this->hasMany(Reaction::class);
+    }
     /**
      * Get the posts for the user.
      */
@@ -113,5 +123,10 @@ class User extends Authenticatable
     public function getPendingFriendRequestFrom(User $user)
     {
         return $this->friendshipsReceived()->where('requester_id', $user->id)->where('status', 'pending')->first();
+    }
+
+    public function hasSentFriendRequestTo(User $user)
+    {
+        return $this->getPendingFriendRequestTo($user) !== null;
     }
 }

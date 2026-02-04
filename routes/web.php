@@ -27,15 +27,13 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        $posts = \App\Models\Post::with(['user', 'comments', 'reactions'])->latest()->get();
-        $suggestedUsers = \App\Models\User::where('id', '!=', auth()->id())->inRandomOrder()->limit(5)->get();
-        return view('dashboard', compact('posts', 'suggestedUsers'));
-    })->name('dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/search', [\App\Http\Controllers\SearchController::class, 'index'])->name('search');
 
     Route::resource('posts', \App\Http\Controllers\PostController::class);
     Route::resource('comments', \App\Http\Controllers\CommentController::class);
     Route::post('/reactions', [\App\Http\Controllers\ReactionController::class, 'toggle'])->name('reactions.toggle');
+    Route::get('/friends', [\App\Http\Controllers\FriendsController::class, 'index'])->name('friendships.index');
     Route::resource('friendships', \App\Http\Controllers\FriendshipController::class);
 
     Route::get('/explore', function () {

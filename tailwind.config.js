@@ -11,10 +11,23 @@ export default {
         './resources/views/**/*.blade.php',
     ],
 
+    darkMode: 'class',
     theme: {
         extend: {
+            colors: {
+                "primary": "#135bec",
+                "background-light": "#f6f6f8",
+                "background-dark": "#0B0E14",
+                "surface-dark": "#161B22",
+                "border-dark": "#324467",
+            },
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Plus Jakarta Sans', 'sans-serif', ...defaultTheme.fontFamily.sans],
+                display: ['Plus Jakarta Sans', 'sans-serif'],
+            },
+            borderRadius: {
+                "lg": "0.5rem",
+                "xl": "0.75rem",
             },
         },
     },
