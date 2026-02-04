@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-[600px] border-r border-slate-200 dark:border-border-dark min-h-screen">
+    <div class="flex-1 border-r border-slate-200 dark:border-border-dark min-h-screen">
         <div class="sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-30 border-b border-slate-200 dark:border-border-dark px-4 py-3">
             <h1 class="font-bold text-xl text-slate-900 dark:text-white">Friends</h1>
         </div>

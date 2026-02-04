@@ -33,12 +33,12 @@
             @include('navigation-menu')
 
             <!-- Main Content Area -->
-            <main class="flex-1 ml-64 mr-[350px] min-h-screen border-r border-slate-200 dark:border-border-dark">
+            <main class="flex-1 ml-20 xl:ml-64 xl:mr-[350px] min-h-screen border-r border-slate-200 dark:border-border-dark">
                 {{ $slot }}
             </main>
 
             <!-- Right Sidebar (Trends & Suggested) -->
-            <aside class="w-[350px] fixed right-0 h-screen p-6 overflow-y-auto flex flex-col gap-6">
+            <aside class="hidden xl:block max-w-[350px] fixed right-0 h-screen p-6 overflow-y-auto flex flex-col gap-6">
                 <!-- Trending Topics -->
                 <section class="bg-slate-100 dark:bg-surface-dark rounded-2xl p-5 border border-slate-200 dark:border-border-dark">
                     <h2 class="text-lg font-bold mb-4">Trending Topics</h2>

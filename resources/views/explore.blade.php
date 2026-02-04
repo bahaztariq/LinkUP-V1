@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex min-h-screen">
         <!-- Middle Column: Explore Grid -->
-        <div class="flex-1 w-full max-w-[600px] border-r border-gray-100">
+        <div class="flex-1 border-r border-gray-100">
             <!-- Search Header -->
             <div class="sticky top-0 bg-white/80 backdrop-blur-md z-30 p-3 border-b border-gray-100">
                 <div class="relative group">
@@ -58,37 +58,6 @@
             </div>
         </div>
 
-        <!-- Right Column: Trends (Same as Dashboard) -->
-        <div class="hidden lg:block w-[350px] pl-8 py-4 mr-10 relative">
-             <div class="sticky top-4 space-y-6">
-                <!-- Trends for you -->
-                <div class="bg-gray-50 rounded-2xl p-4">
-                    <h2 class="font-extrabold text-xl mb-4 text-gray-900 border-b border-gray-200 pb-2">Trends for you</h2>
-                    <div class="space-y-4">
-                        @foreach(['#LinkUP', 'Startups', 'TailwindCSS', '#Redesign', 'CodingLife'] as $i => $trend)
-                        <div class="cursor-pointer hover:bg-gray-100 -mx-4 px-4 py-2 transition-colors">
-                            <div class="flex justify-between text-xs text-gray-500">
-                                <span>Trending in Tech</span>
-                                <span class="material-symbols-outlined text-[16px]">more_horiz</span>
-                            </div>
-                            <div class="font-bold text-sm text-gray-800">{{ $trend }}</div>
-                            <div class="text-xs text-gray-500">{{ rand(10, 500) }}K posts</div>
-                        </div>
-                        @endforeach
-                         <button class="text-blue-500 text-sm font-normal mt-2 hover:underline">Show more</button>
-                    </div>
-                </div>
-
-                <!-- Footer -->
-                <nav class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-400 px-2">
-                    <a href="#" class="hover:underline">Terms of Service</a>
-                    <a href="#" class="hover:underline">Privacy Policy</a>
-                    <a href="#" class="hover:underline">Cookie Policy</a>
-                    <a href="#" class="hover:underline">Accessibility</a>
-                    <a href="#" class="hover:underline">Ads info</a>
-                    <span>© 2026 LinkUP</span>
-                </nav>
-            </div>
-        </div>
+        
     </div>
 </x-app-layout>
