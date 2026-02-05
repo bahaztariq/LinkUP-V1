@@ -1,15 +1,15 @@
 <x-app-layout>
     <!-- Sticky Search Header -->
     <!-- Sticky Search Header -->
-    <header class="sticky top-0 z-10 glass-header px-6 py-4 border-b border-slate-200 dark:border-border-dark">
+    <header class="sticky top-0 z-10 glass-header px-6 py-4 border-b border-slate-200">
         <form action="{{ route('search') }}" method="GET" class="relative group">
             <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
-            <input name="q" value="{{ request('q') }}" class="w-full bg-slate-100 dark:bg-surface-dark border-none rounded-xl pl-12 pr-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all placeholder-slate-400" placeholder="Search posts, trends, or people..." type="text"/>
+            <input name="q" value="{{ request('q') }}" class="w-full bg-slate-100 border-none rounded-xl pl-12 pr-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all placeholder-slate-400" placeholder="Search posts, trends, or people..." type="text"/>
         </form>
     </header>
 
     <!-- Composer Section -->
-    <div class="p-6 border-b border-slate-200 dark:border-border-dark" x-data="{ imagePreview: null, videoPreview: null }">
+    <div class="p-6 border-b border-slate-200" x-data="{ imagePreview: null, videoPreview: null }">
         <div class="flex gap-4">
              @if (Laravel\Jetstream\Jetstream::managesProfilePhotos() && Auth::user()->profile_photo_url)
                 <div class="size-12 rounded-full bg-cover bg-center shrink-0" style='background-image: url("{{ Auth::user()->profile_photo_url }}")'></div>
@@ -25,7 +25,7 @@
                     
                     <!-- Image Preview -->
                     <div x-show="imagePreview" x-cloak class="mt-4 relative">
-                        <img :src="imagePreview" class="max-h-80 rounded-2xl border border-slate-200 dark:border-border-dark object-cover w-full" alt="Preview">
+                        <img :src="imagePreview" class="max-h-80 rounded-2xl border border-slate-200 object-cover w-full" alt="Preview">
                         <button type="button" @click="imagePreview = null; $refs.imageInput.value = ''" class="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 transition-colors">
                             <span class="material-symbols-outlined text-[20px]">close</span>
                         </button>
@@ -33,13 +33,13 @@
 
                     <!-- Video Preview -->
                     <div x-show="videoPreview" x-cloak class="mt-4 relative">
-                        <video :src="videoPreview" class="max-h-80 rounded-2xl border border-slate-200 dark:border-border-dark w-full" controls></video>
+                        <video :src="videoPreview" class="max-h-80 rounded-2xl border border-slate-200 w-full" controls></video>
                         <button type="button" @click="videoPreview = null; $refs.videoInput.value = ''" class="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 transition-colors">
                             <span class="material-symbols-outlined text-[20px]">close</span>
                         </button>
                     </div>
                     
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-100 dark:border-border-dark">
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
                         <div class="flex gap-1">
                             <label class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors cursor-pointer">
                                 <span class="material-symbols-outlined">image</span>

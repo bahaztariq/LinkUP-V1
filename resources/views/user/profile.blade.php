@@ -43,18 +43,18 @@
                         @else
                              <!-- Friend/Follow Logic -->
                              <div class="flex gap-2">
-                                <button class="w-8 h-8 rounded-full border border-gray-300 dark:border-border-dark flex items-center justify-center hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
-                                    <span class="material-symbols-outlined text-[18px] text-slate-600 dark:text-slate-400">more_horiz</span>
+                                <button class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-slate-600">more_horiz</span>
                                 </button>
-                                <button class="w-8 h-8 rounded-full border border-gray-300 dark:border-border-dark flex items-center justify-center hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
-                                    <span class="material-symbols-outlined text-[18px] text-slate-600 dark:text-slate-400">mail</span>
+                                <button class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-slate-600">mail</span>
                                 </button>
                                 
                                 @if(Auth::user()->isFriendWith($user))
                                     {{-- Unfriend --}}
                                     <form action="{{ route('friendships.destroy', $user->friendshipsReceived()->where('requester_id', Auth::id())->first()->id ?? $user->friendshipsSent()->where('addressee_id', Auth::id())->first()->id) }}" method="POST" onsubmit="return confirm('Remove friend?');">
                                         @csrf @method('DELETE')
-                                        <button type="submit" class="px-4 py-1.5 bg-white dark:bg-transparent border border-red-200 text-red-600 rounded-full font-bold text-[15px] hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                                        <button type="submit" class="px-4 py-1.5 bg-white border border-red-200 text-red-600 rounded-full font-bold text-[15px] hover:bg-red-50 transition-colors">
                                             Unfriend
                                         </button>
                                     </form>
@@ -62,7 +62,7 @@
                                     {{-- Cancel Request --}}
                                     <form action="{{ route('friendships.destroy', $request->id) }}" method="POST">
                                         @csrf @method('DELETE')
-                                        <button type="submit" class="px-4 py-1.5 bg-white dark:bg-transparent border border-slate-300 dark:border-border-dark text-slate-600 dark:text-slate-300 rounded-full font-bold text-[15px] hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
+                                        <button type="submit" class="px-4 py-1.5 bg-white border border-slate-300 text-slate-600 rounded-full font-bold text-[15px] hover:bg-slate-100 transition-colors">
                                             Requested
                                         </button>
                                     </form>
@@ -79,7 +79,7 @@
                                     <form action="{{ route('friendships.store') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="addressee_id" value="{{ $user->id }}">
-                                        <button type="submit" class="px-4 py-1.5 bg-black dark:bg-white text-white dark:text-black rounded-full font-bold text-[15px] hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
+                                        <button type="submit" class="px-4 py-1.5 bg-black text-white rounded-full font-bold text-[15px] hover:bg-gray-800 transition-colors">
                                             Add Friend
                                         </button>
                                     </form>

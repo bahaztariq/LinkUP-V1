@@ -1,7 +1,7 @@
 <x-guest-layout>
-    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-surface-dark shadow-md overflow-hidden sm:rounded-2xl border border-slate-200 dark:border-border-dark">
+    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-2xl border border-slate-200">
         <div class="flex justify-center mb-6">
-            <h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">LinkUP</h1>
+            <h1 class="text-3xl font-bold tracking-tight text-slate-900">LinkUP</h1>
         </div>
 
         <x-validation-errors class="mb-4" />
@@ -16,25 +16,25 @@
             @csrf
 
             <div>
-                <label for="email" class="block font-medium text-sm text-slate-700 dark:text-slate-300">Email</label>
-                <input id="email" class="block mt-1 w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-border-dark focus:border-primary focus:ring-primary rounded-xl px-4 py-2.5" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                <label for="email" class="block font-medium text-sm text-slate-700">Email</label>
+                <input id="email" class="block mt-1 w-full bg-slate-50 border border-slate-200 focus:border-primary focus:ring-primary rounded-xl px-4 py-2.5" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             </div>
 
             <div class="mt-4">
-                <label for="password" class="block font-medium text-sm text-slate-700 dark:text-slate-300">Password</label>
-                <input id="password" class="block mt-1 w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-border-dark focus:border-primary focus:ring-primary rounded-xl px-4 py-2.5" type="password" name="password" required autocomplete="current-password" />
+                <label for="password" class="block font-medium text-sm text-slate-700">Password</label>
+                <input id="password" class="block mt-1 w-full bg-slate-50 border border-slate-200 focus:border-primary focus:ring-primary rounded-xl px-4 py-2.5" type="password" name="password" required autocomplete="current-password" />
             </div>
 
             <div class="block mt-4">
                 <label for="remember_me" class="flex items-center">
                     <input type="checkbox" id="remember_me" name="remember" class="rounded border-gray-300 text-primary shadow-sm focus:ring-primary">
-                    <span class="ms-2 text-sm text-slate-600 dark:text-slate-400">{{ __('Remember me') }}</span>
+                    <span class="ms-2 text-sm text-slate-600">{{ __('Remember me') }}</span>
                 </label>
             </div>
 
             <div class="flex items-center justify-between mt-6">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" href="{{ route('password.request') }}">
+                    <a class="underline text-sm text-slate-600 hover:text-slate-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif

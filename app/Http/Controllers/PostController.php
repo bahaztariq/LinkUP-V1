@@ -92,9 +92,6 @@ class PostController extends Controller
     {
         $this->authorize('delete', $post);
 
-        // Delete media if exists (Optional, depending on storage setup)
-        // if ($post->image_path) Storage::disk('public')->delete($post->image_path);
-
         $post->delete();
 
         return redirect()->route('dashboard')->with('success', 'Post deleted successfully.');

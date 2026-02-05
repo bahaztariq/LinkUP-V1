@@ -1,6 +1,6 @@
 @props(['post'])
 
-<article class="p-6 border-b border-slate-200 dark:border-border-dark hover:bg-slate-50/50 dark:hover:bg-surface-dark/30 transition-colors cursor-pointer" x-data="{ showComments: false, editing: false, editContent: @js($post->content) }">
+<article class="p-6 border-b border-slate-200 hover:bg-slate-50/50 transition-colors cursor-pointer" x-data="{ showComments: false, editing: false, editContent: @js($post->content) }">
     <div class="flex gap-4">
         <!-- Avatar -->
         <div class="shrink-0">
@@ -20,7 +20,7 @@
             <!-- Header -->
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-1 text-[15px] leading-5">
-                    <a href="{{ route('user.show', $post->user->id) }}" class="font-bold text-slate-900 dark:text-white hover:underline truncate">{{ $post->user->name }}</a>
+                    <a href="{{ route('user.show', $post->user->id) }}" class="font-bold text-slate-900 hover:underline truncate">{{ $post->user->name }}</a>
                     <span class="material-symbols-outlined text-primary text-sm font-fill">verified</span>
                     <span class="text-slate-500 ml-1">@user_{{ $post->user->id }}</span>
                     <span class="text-slate-500">·</span>
@@ -32,15 +32,15 @@
                     <button @click.stop="open = !open" @click.away="open = false" class="text-slate-400 hover:text-primary p-1 rounded-full transition-colors">
                         <span class="material-symbols-outlined">more_horiz</span>
                     </button>
-                    <div x-show="open" class="absolute right-0 mt-2 w-48 bg-white dark:bg-surface-dark rounded-xl shadow-[0_0_10px_rgba(0,0,0,0.1)] border border-slate-100 dark:border-border-dark z-20 py-1" x-cloak>
-                        <button @click="editing = true; open = false" class="w-full text-left px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-black/20 flex items-center gap-2">
+                    <div x-show="open" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-[0_0_10px_rgba(0,0,0,0.1)] border border-slate-100 z-20 py-1" x-cloak>
+                        <button @click="editing = true; open = false" class="w-full text-left px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                             <span class="material-symbols-outlined text-[18px]">edit</span>
                             Edit Post
                         </button>
                         <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="w-full text-left px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-slate-50 dark:hover:bg-black/20 flex items-center gap-2" onclick="return confirm('Are you sure?')">
+                            <button type="submit" class="w-full text-left px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-slate-50 flex items-center gap-2" onclick="return confirm('Are you sure?')">
                                 <span class="material-symbols-outlined text-[18px]">delete</span>
                                 Delete Post
                             </button>
@@ -52,7 +52,7 @@
 
             <!-- Text Content -->
             <template x-if="!editing">
-                <p class="mt-2 text-slate-800 dark:text-slate-200 leading-normal whitespace-pre-wrap">{{ $post->content }}</p>
+                <p class="mt-2 text-slate-800 leading-normal whitespace-pre-wrap">{{ $post->content }}</p>
             </template>
             
             <template x-if="editing">
@@ -60,9 +60,9 @@
                     <form action="{{ route('posts.update', $post->id) }}" method="POST" class="space-y-2">
                         @csrf
                         @method('PUT')
-                        <textarea x-model="editContent" name="content" rows="3" class="w-full bg-white dark:bg-black/20 border border-slate-200 dark:border-border-dark rounded-xl p-3 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
+                        <textarea x-model="editContent" name="content" rows="3" class="w-full bg-white border border-slate-200 rounded-xl p-3 text-slate-800 focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
                         <div class="flex gap-2 justify-end">
-                            <button type="button" @click="editing = false" class="text-sm font-bold text-slate-500 hover:text-slate-700 px-3 py-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10">Cancel</button>
+                            <button type="button" @click="editing = false" class="text-sm font-bold text-slate-500 hover:text-slate-700 px-3 py-1.5 rounded-full hover:bg-slate-100">Cancel</button>
                             <button type="submit" class="bg-primary text-white text-sm font-bold px-4 py-1.5 rounded-full hover:bg-primary/90">Save</button>
                         </div>
                     </form>
@@ -71,13 +71,13 @@
 
             <!-- Media Attachment -->
             @if($post->image_path)
-            <div class="mt-4 rounded-2xl overflow-hidden border border-slate-200 dark:border-border-dark bg-surface-dark">
+            <div class="mt-4 rounded-2xl overflow-hidden border border-slate-200 bg-slate-100">
                  <img src="{{ asset('storage/' . $post->image_path) }}" alt="Post Image" class="w-full h-auto object-cover max-h-[500px]">
             </div>
             @endif
 
             @if($post->video_path)
-            <div class="mt-4 rounded-2xl overflow-hidden border border-slate-200 dark:border-border-dark bg-black">
+            <div class="mt-4 rounded-2xl overflow-hidden border border-slate-200 bg-black">
                  <video src="{{ asset('storage/' . $post->video_path) }}" controls class="w-full h-auto max-h-[500px]"></video>
             </div>
             @endif
@@ -104,7 +104,7 @@
             </div>
 
             <!-- Comments Section -->
-            <div x-show="showComments" class="mt-4 pt-4 border-t border-slate-100 dark:border-border-dark" @click.stop x-cloak>
+            <div x-show="showComments" class="mt-4 pt-4 border-t border-slate-100" @click.stop x-cloak>
                  <!-- Comment Form -->
                 <form action="{{ route('comments.store') }}" method="POST" class="flex gap-3 mb-4 items-start">
                     @csrf
@@ -120,7 +120,7 @@
                     @endif
                     
                     <div class="flex-1">
-                        <input type="text" name="body" placeholder="Post your reply" class="w-full bg-transparent border-0 border-b border-slate-200 focus:border-primary focus:ring-0 px-0 py-2 text-sm placeholder-slate-500 dark:text-white">
+                        <input type="text" name="body" placeholder="Post your reply" class="w-full bg-transparent border-0 border-b border-slate-200 focus:border-primary focus:ring-0 px-0 py-2 text-sm placeholder-slate-500">
                     </div>
                     <button type="submit" class="text-primary font-bold text-sm hover:bg-primary/10 px-3 py-1.5 rounded-full transition-colors disabled:opacity-50">Reply</button>
                 </form>

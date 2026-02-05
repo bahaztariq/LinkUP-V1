@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+    <body class="bg-background-light text-slate-900 antialiased">
         <x-banner />
 
         <div class="max-w-[1440px] mx-auto flex min-h-screen">
@@ -33,14 +33,14 @@
             @include('navigation-menu')
 
             <!-- Main Content Area -->
-            <main class="flex-1 ml-20 xl:ml-64 xl:mr-[350px] min-h-screen border-r border-slate-200 dark:border-border-dark">
+            <main class="flex-1 ml-20 xl:ml-64 xl:mr-[350px] min-h-screen border-r border-slate-200">
                 {{ $slot }}
             </main>
 
             <!-- Right Sidebar (Trends & Suggested) -->
             <aside class="hidden xl:block max-w-[350px] fixed right-0 h-screen p-6 overflow-y-auto flex flex-col gap-6">
                 <!-- Trending Topics -->
-                <section class="bg-slate-100 dark:bg-surface-dark rounded-2xl p-5 border border-slate-200 dark:border-border-dark">
+                <section class="bg-slate-100 rounded-2xl p-5 border border-slate-200">
                     <h2 class="text-lg font-bold mb-4">Trending Topics</h2>
                     <div class="flex flex-col gap-5">
                         <div class="cursor-pointer group">
@@ -62,7 +62,7 @@
                 </section>
 
                 <!-- Suggested for You -->
-                <section class="bg-slate-100 dark:bg-surface-dark rounded-2xl p-5 border border-slate-200 dark:border-border-dark">
+                <section class="bg-slate-100 rounded-2xl p-5 border border-slate-200">
                     <h2 class="text-lg font-bold mb-4">Who to follow</h2>
                     <!-- We should fetch real users here eventually, but for layout we can keep static or include a component -->
                     @if(isset($suggestedUsers))
@@ -85,7 +85,7 @@
                                 <form action="{{ route('friendships.store') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="addressee_id" value="{{ $suggestedUser->id }}">
-                                    <button class="bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold px-4 py-2 rounded-full hover:opacity-80 transition-opacity">Follow</button>
+                                    <button class="bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-80 transition-opacity">Follow</button>
                                 </form>
                             </div>
                             @endforeach

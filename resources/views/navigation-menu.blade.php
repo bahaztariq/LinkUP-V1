@@ -1,9 +1,9 @@
-<aside class="w-20 xl:w-64 fixed h-screen border-r border-slate-200 dark:border-border-dark  flex flex-col p-3 xl:p-6 gap-8 overflow-y-auto dark:bg-background-dark z-50 transition-all duration-300">
+<aside class="w-20 xl:w-64 fixed h-screen border-r border-slate-200 flex flex-col p-3 xl:p-6 gap-8 overflow-y-auto z-50 transition-all duration-300">
     <div class="flex items-center justify-center xl:justify-start gap-3 px-2">
         <div class="bg-primary size-10 rounded-xl flex items-center justify-center text-white shrink-0">
             <span class="material-symbols-outlined text-2xl">grid_view</span>
         </div>
-        <h1 class="text-xl font-bold tracking-tight hidden xl:block text-slate-900 dark:text-white">LinkUP</h1>
+        <h1 class="text-xl font-bold tracking-tight hidden xl:block text-slate-900">LinkUP</h1>
     </div>
 
     <nav class="flex flex-col gap-2 flex-1">
@@ -22,12 +22,12 @@
             @php
                 $isActive = request()->routeIs($item['route']);
                 $activeClass = 'bg-primary/10 text-primary font-semibold';
-                $inactiveClass = 'hover:bg-slate-100 dark:hover:bg-surface-dark text-slate-500 dark:text-slate-400';
+                $inactiveClass = 'hover:bg-slate-100 text-slate-500';
             @endphp
             <a class="flex items-center gap-4 px-3 xl:px-4 py-3 rounded-xl transition-colors justify-center xl:justify-start {{ $isActive ? $activeClass : $inactiveClass }}" 
                href="{{ Route::has($item['route']) ? route($item['route']) : '#' }}">
                 <span class="material-symbols-outlined {{ $isActive ? 'font-fill' : '' }}">{{ $item['icon'] }}</span>
-                <span class="hidden xl:inline text-slate-900 dark:text-white">{{ $item['label'] }}</span>
+                <span class="hidden xl:inline text-slate-900">{{ $item['label'] }}</span>
             </a>
         @endforeach
 
@@ -35,12 +35,12 @@
         @php
             $isProfileActive = request()->routeIs('user.show') && request()->route('user')->id == Auth::id();
              $activeClass = 'bg-primary/10 text-primary font-semibold';
-             $inactiveClass = 'hover:bg-slate-100 dark:hover:bg-surface-dark text-slate-500 dark:text-slate-400';
+             $inactiveClass = 'hover:bg-slate-100 text-slate-500';
         @endphp
         <a class="flex items-center gap-4 px-3 xl:px-4 py-3 rounded-xl transition-colors justify-center xl:justify-start {{ $isProfileActive ? $activeClass : $inactiveClass }}" 
            href="{{ route('user.show', Auth::user()) }}">
             <span class="material-symbols-outlined {{ $isProfileActive ? 'font-fill' : '' }}">person</span>
-            <span class="hidden xl:inline text-slate-900 dark:text-white">Profile</span>
+            <span class="hidden xl:inline text-slate-900">Profile</span>
         </a>
     </nav>
 
@@ -52,24 +52,24 @@
         
         <!-- User Dropdown Trigger -->
         <div class="relative" x-data="{ open: false }">
-            <div @click="open = !open" class="flex items-center gap-3 p-2 rounded-xl border border-slate-200 dark:border-border-dark cursor-pointer hover:bg-slate-50 dark:hover:bg-surface-dark transition-colors justify-center xl:justify-start">
+            <div @click="open = !open" class="flex items-center gap-3 p-2 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition-colors justify-center xl:justify-start">
                  @if (Laravel\Jetstream\Jetstream::managesProfilePhotos() && Auth::user()->profile_photo_url)
                     <div class="size-10 rounded-full bg-cover bg-center shrink-0" style='background-image: url("{{ Auth::user()->profile_photo_url }}")'></div>
                  @else
-                    <div class="size-10 rounded-full bg-gray-200 dark:bg-slate-700 flex items-center justify-center text-gray-500 dark:text-slate-300 font-bold shrink-0">
+                    <div class="size-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold shrink-0">
                         {{ substr(Auth::user()->name, 0, 1) }}
                     </div>
                  @endif
                 <div class="flex-1 min-w-0 hidden xl:block">
-                    <p class="text-sm font-bold truncate text-slate-900 dark:text-white">{{ Auth::user()->name }}</p>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 truncate">@ {{ strtolower(str_replace(' ', '', Auth::user()->name)) }}</p>
+                    <p class="text-sm font-bold truncate text-slate-900">{{ Auth::user()->name }}</p>
+                    <p class="text-xs text-slate-500 truncate">@ {{ strtolower(str_replace(' ', '', Auth::user()->name)) }}</p>
                 </div>
-                <span class="material-symbols-outlined text-slate-400 dark:text-slate-500 hidden xl:block">more_horiz</span>
+                <span class="material-symbols-outlined text-slate-400 hidden xl:block">more_horiz</span>
             </div>
 
             <!-- Dropdown Menu -->
             <div x-show="open" @click.away="open = false" 
-                 class="absolute bottom-full left-0 w-60 mb-2 bg-white dark:bg-surface-dark rounded-xl shadow-xl border border-slate-100 dark:border-border-dark py-2 z-50"
+                 class="absolute bottom-full left-0 w-60 mb-2 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50"
                  x-transition:enter="transition ease-out duration-100"
                  x-transition:enter-start="opacity-0 transform scale-95"
                  x-transition:enter-end="opacity-100 transform scale-100"
@@ -77,10 +77,10 @@
                  x-transition:leave-start="opacity-100 transform scale-100"
                  x-transition:leave-end="opacity-0 transform scale-95" 
                  x-cloak>
-                <a href="{{ route('profile.show') }}" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5">Settings</a>
+                <a href="{{ route('profile.show') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">Settings</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-slate-50 dark:hover:bg-white/5">Log Out</button>
+                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-slate-50">Log Out</button>
                 </form>
             </div>
         </div>
@@ -92,15 +92,15 @@
 </aside>
 
 <!-- Mobile Bottom Navigation (Visible only on small screens) -->
-<div class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-surface-dark border-t border-slate-200 dark:border-border-dark z-50 flex justify-around items-center py-3 px-2 pb-safe">
+<div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50 flex justify-around items-center py-3 px-2 pb-safe">
     @foreach($navItems as $item)
-    <a href="{{ Route::has($item['route']) ? route($item['route']) : '#' }}" class="p-2 {{ request()->routeIs($item['route']) ? 'text-primary' : 'text-slate-500 dark:text-slate-400' }}">
+    <a href="{{ Route::has($item['route']) ? route($item['route']) : '#' }}" class="p-2 {{ request()->routeIs($item['route']) ? 'text-primary' : 'text-slate-500' }}">
         <span class="material-symbols-outlined text-[28px] {{ request()->routeIs($item['route']) ? 'font-fill' : '' }}">{{ $item['icon'] }}</span>
     </a>
     @endforeach
-    <a href="{{ route('user.show', Auth::user()) }}" class="p-2 {{ request()->routeIs('user.show') && request()->route('user')->id == Auth::id() ? 'text-primary' : 'text-slate-500 dark:text-slate-400' }}">
+    <a href="{{ route('user.show', Auth::user()) }}" class="p-2 {{ request()->routeIs('user.show') && request()->route('user')->id == Auth::id() ? 'text-primary' : 'text-slate-500' }}">
          @if (Laravel\Jetstream\Jetstream::managesProfilePhotos() && Auth::user()->profile_photo_url)
-            <img class="h-6 w-6 rounded-full object-cover border border-slate-200 dark:border-border-dark {{ request()->routeIs('user.show') ? 'ring-2 ring-primary' : '' }}" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+            <img class="h-6 w-6 rounded-full object-cover border border-slate-200 {{ request()->routeIs('user.show') ? 'ring-2 ring-primary' : '' }}" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
          @else
             <span class="material-symbols-outlined text-[28px] {{ request()->routeIs('user.show') ? 'font-fill' : '' }}">person</span>
          @endif

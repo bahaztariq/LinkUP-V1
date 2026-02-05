@@ -1,13 +1,13 @@
 <x-app-layout>
-    <div class="flex-1 border-r border-slate-200 dark:border-border-dark min-h-screen">
-        <div class="sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-30 border-b border-slate-200 dark:border-border-dark px-4 py-3">
-            <h1 class="font-bold text-xl text-slate-900 dark:text-white">Friends</h1>
+    <div class="flex-1 border-r border-slate-200 min-h-screen">
+        <div class="sticky top-0 bg-white/80 backdrop-blur-md z-30 border-b border-slate-200 px-4 py-3">
+            <h1 class="font-bold text-xl text-slate-900">Friends</h1>
         </div>
 
         <div class="p-4" x-data="{ tab: 'friends' }">
-            <div class="flex gap-4 border-b border-slate-200 dark:border-border-dark mb-4">
-                <button @click="tab = 'friends'" :class="{ 'border-primary text-primary': tab === 'friends', 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300': tab !== 'friends' }" class="pb-3 border-b-2 font-bold text-sm transition-colors">My Friends</button>
-                <button @click="tab = 'requests'" :class="{ 'border-primary text-primary': tab === 'requests', 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300': tab !== 'requests' }" class="pb-3 border-b-2 font-bold text-sm transition-colors flex items-center gap-2">
+            <div class="flex gap-4 border-b border-slate-200 mb-4">
+                <button @click="tab = 'friends'" :class="{ 'border-primary text-primary': tab === 'friends', 'border-transparent text-slate-500 hover:text-slate-700': tab !== 'friends' }" class="pb-3 border-b-2 font-bold text-sm transition-colors">My Friends</button>
+                <button @click="tab = 'requests'" :class="{ 'border-primary text-primary': tab === 'requests', 'border-transparent text-slate-500 hover:text-slate-700': tab !== 'requests' }" class="pb-3 border-b-2 font-bold text-sm transition-colors flex items-center gap-2">
                     Friend Requests
                     @if($pendingRequests->count() > 0)
                         <span class="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">{{ $pendingRequests->count() }}</span>
@@ -30,7 +30,7 @@
                                 @endif
                             </a>
                             <div>
-                                <a href="{{ route('user.show', $friend->id) }}" class="font-bold text-slate-900 dark:text-white hover:underline">{{ $friend->name }}</a>
+                                <a href="{{ route('user.show', $friend->id) }}" class="font-bold text-slate-900 hover:underline">{{ $friend->name }}</a>
                                 <p class="text-xs text-slate-500">@ {{ strtolower(str_replace(' ', '', $friend->name)) }}</p>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
                                 @endif
                             </a>
                             <div>
-                                <a href="{{ route('user.show', $request->requester->id) }}" class="font-bold text-slate-900 dark:text-white hover:underline">{{ $request->requester->name }}</a>
+                                <a href="{{ route('user.show', $request->requester->id) }}" class="font-bold text-slate-900 hover:underline">{{ $request->requester->name }}</a>
                                 <p class="text-xs text-slate-500">Sent you a friend request</p>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                             <form action="{{ route('friendships.destroy', $request->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="bg-slate-200 dark:bg-surface-dark text-slate-700 dark:text-slate-300 text-sm font-bold px-4 py-1.5 rounded-full hover:bg-slate-300 transition-colors">Delete</button>
+                                <button type="submit" class="bg-slate-200 text-slate-700 text-sm font-bold px-4 py-1.5 rounded-full hover:bg-slate-300 transition-colors">Delete</button>
                             </form>
                         </div>
                     </div>

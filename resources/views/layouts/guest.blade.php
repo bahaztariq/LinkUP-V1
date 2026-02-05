@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,8 +18,8 @@
              body { font-family: 'Plus Jakarta Sans', sans-serif; }
         </style>
     </head>
-    <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
-        <div class="font-sans text-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
+    <body class="bg-background-light text-slate-900 antialiased">
+        <div class="font-sans text-slate-900 antialiased min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
             {{ $slot }}
         </div>
     </body>
